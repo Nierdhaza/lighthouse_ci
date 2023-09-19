@@ -1,0 +1,229 @@
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    display: none;
+  }
+  to {
+    display: block;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    display: block;
+  }
+  to {
+    display: none;
+  }
+}
+
+@keyframes overflowIn {
+  from {
+    overflow: hidden;
+  }
+  to {
+    overflow: visible;
+  }
+}
+
+@keyframes overflowOut {
+  from {
+    overflow: visible;
+  }
+  to {
+    overflow: hidden;
+  }
+}
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideRight1 {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideLeft1 {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.main {
+  padding: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  width: fit-content;
+  white-space: pre;
+  padding: 5px;
+  position: relative;
+}
+
+.main > ul {
+  display: flex;
+}
+
+.main > ul .menu-li:hover .menu {
+  animation: 0.3s slideDown ease 0.4s both, 0.1s fadeIn 0s both;
+}
+
+.main > ul .menu-li:hover .menu.animated {
+  animation: 0.3s slideDown ease 0.4s both, 0.1s fadeIn 0s both;
+}
+.main > ul .menu-li:hover .transform-area {
+  background-color: red;
+  animation: 0.1s fadeIn 0s both, 0.1s overflowIn 0.8s both; /*note that overflow animation change should be longer than slide animation*/
+}
+
+.main > ul .menu-li:hover .transform-area.animated {
+  animation: none; /*note that overflow animation change should be longer than slide animation*/
+}
+
+.transform-area {
+  animation: 0.1s fadeOut 0.4s both, 0.1s overflowOut 0.3s both;
+}
+
+.transform-area.animated {
+  animation: none;
+}
+
+.menu.animated {
+  animation: none;
+  visibility: hidden;
+}
+
+.menu {
+  animation: 0.3s slideUp ease 0.3s both, 0.1s fadeOut 0.6s both;
+  background-color: lightblue;
+  /* visibility: hidden; */
+}
+
+.menu.visible {
+  /* visibility: visible; */
+}
+
+.transform-area-1 {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  animation: 0.1s fadeOut 0.6s both, 0.1s overflowOut 0.4s both;
+  outline: 2px solid green;
+}
+.menu-li-1:hover .transform-area-1 {
+  animation: 0.1s fadeIn 0s both, 0.1s overflowIn 0.8s both;
+}
+
+.menu-1 {
+  padding: 0;
+  animation: 0.3s slideLeft ease 0.4s both, 0.1s fadeOut 0.6s both,
+    0.1s overflowOut 0.8s both;
+  background-color: lightblue;
+  border: 2px solid red;
+}
+
+.menu-1.oppositeDirection {
+  animation: 0.3s slideRight1 ease 0.4s both, 0.1s fadeOut 0.6s both,
+    0.1s overflowOut 0.3s both;
+}
+
+.menu-li-1:hover .menu-1 {
+  animation: 0.3s slideRight ease 0.3s both, 0.1s fadeIn 0s both,
+    0.1s overflowIn 0.8s both;
+}
+.menu-li-1:hover .menu-1.oppositeDirection {
+  animation: 0.3s slideLeft1 ease 0.3s both, 0.1s fadeIn 0s both,
+    0.1s overflowIn 0.8s both;
+}
+
+.transform-area-2 {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  animation: 0.1s fadeOut 0.6s both, 0.1s overflowOut 0.4s both;
+}
+
+.menu-li-2:hover .transform-area-2 {
+  animation: 0.1s fadeIn 0s both, 0.1s overflowIn 0.8s both;
+}
+
+.menu-2 {
+  background-color: rgb(185, 216, 226);
+  animation: 0.3s slideLeft ease 0.4s both, 0.1s fadeOut 0.6s both,
+    0.1s overflowOut 0.8s both;
+}
+
+.menu-2.oppositeDirection {
+  animation: 0.3s slideRight1 ease 0.4s both, 0.1s fadeOut 0.6s both,
+    0.1s overflowOut 0.3s both;
+}
+
+.menu-li-2:hover .menu-2 {
+  animation: 0.3s slideRight ease 0.3s both, 0.1s fadeIn 0s both,
+    0.1s overflowIn 0.8s both;
+}
+
+.menu-li-2:hover .menu-2.oppositeDirection {
+  animation: 0.3s slideLeft1 ease 0.3s both, 0.1s fadeIn 0s both,
+    0.1s overflowIn 0.8s both;
+}
+
+.menu-li:hover .menu-1 {
+  display: none;
+}
+
+.menu-li .menu-li-1:hover .menu-1 {
+  display: block;
+}
+
+.menu-li-1:hover .menu-2 {
+  display: none;
+}
+
+.menu-li-1 .menu-li-2:hover .menu-2 {
+  display: block;
+}
+/*If you want to change animation time please be attentive because changing time can affect overflow effect!!!!!!!!!! */
