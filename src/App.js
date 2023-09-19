@@ -8,7 +8,7 @@ function App() {
   const [visibleSubList, setVisibleSubList] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  for (let i = 0; i < 10e9; i++) {}
+  // for (let i = 0; i < 10e9; i++) {}
 
   return (
     <div className="main">
