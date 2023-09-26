@@ -126,3 +126,10 @@ function ExampleKeyframes() {
 }
 
 export default ExampleKeyframes;
+
+/*
+1) https://github.com/treosh/lighthouse-ci-action -> this action does not have nice comment render in PR
+2) https://github.com/marketplace/actions/lighthouse-compare -> this actions does not have nice config properties as first one
+3) https://github.com/marketplace/actions/lighthouse-badger -> possible nice ui precentation 
+4) make own solution which is based on previous 3 -> https://github.com/badges/shields (for my opinion use 1 as create config and try to write own action to make pretty ui for PR)
+*/

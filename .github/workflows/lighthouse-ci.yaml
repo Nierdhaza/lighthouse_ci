@@ -1,12 +1,12 @@
 name: Lighthouse Check
 
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
 
 jobs:
   lighthouse-check:
     runs-on: ubuntu-latest
+    permissions: write-all
     env:
       CI: ""
 
@@ -32,5 +32,23 @@ jobs:
           # no urls needed, since it uses local folder to scan .html files
           configPath: "./lighthouserc.js"
 
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const lighthouseCommentMaker = require('./scripts/ligthouseReportComment.js');
+
+            const lighthouseOutputs = {
+              manifest: ${{ steps.LHCIAction.outputs.manifest }},
+              links: ${{ steps.LHCIAction.outputs.links }}
+            };
+
+            const comment = lighthouseCommentMaker({ lighthouseOutputs });
+            core.setOutput("comment", comment);
+
       - name: Access Lighthouse Report
-        run: echo ${{toJson(steps.LHCIAction.outputs)}}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: lighthouse
+          message: ${{ steps.format_lighthouse_score.outputs.comment }}
