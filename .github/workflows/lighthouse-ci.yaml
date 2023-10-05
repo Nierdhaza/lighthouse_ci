@@ -47,6 +47,9 @@ jobs:
             const comment = lighthouseCommentMaker({ lighthouseOutputs });
             core.setOutput("comment", comment);
 
+      - name: Print lighthouse result to terminal
+        run: echo "lighthouse report results ${{toJson(steps.LHCIAction.outputs)}}"
+
       - name: Access Lighthouse Report
         uses: marocchino/sticky-pull-request-comment@v2
         with:
