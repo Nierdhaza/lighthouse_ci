@@ -1,7 +1,6 @@
 name: Lighthouse Check
 
-on:
-  pull_request:
+on: [workflow_dispatch, pull_request]
 
 jobs:
   lighthouse-check:
@@ -25,33 +24,23 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      - name: Run Lighthouse against a static dist dir
-        uses: treosh/lighthouse-ci-action@v10
-        id: LHCIAction
-        with:
-          # no urls needed, since it uses local folder to scan .html files
-          configPath: "./lighthouserc.js"
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
 
       - name: Format lighthouse score
         id: format_lighthouse_score
         uses: actions/github-script@v5
         with:
           script: |
-            const lighthouseCommentMaker = require('./scripts/ligthouseReportComment.js');
+            const fs = require('fs');
+            const path = require('path');
 
-            const lighthouseOutputs = {
-              manifest: ${{ steps.LHCIAction.outputs.manifest }},
-              links: ${{ steps.LHCIAction.outputs.links }}
-            };
-
-            const comment = lighthouseCommentMaker({ lighthouseOutputs });
-            core.setOutput("comment", comment);
-
-      - name: Print lighthouse result to terminal
-        run: echo "lighthouse report results ${{toJson(steps.LHCIAction.outputs)}}"
-
-      - name: Access Lighthouse Report
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: lighthouse
-          message: ${{ steps.format_lighthouse_score.outputs.comment }}
+            const root = process.env.GITHUB_WORKSPACE;
+            const jsonsInDir = fs.readdirSync(root + '/lighthouse-results').filter(file => path.extname(file) === '.json');
+            console.log('jsonsInDir',  jsonsInDir);

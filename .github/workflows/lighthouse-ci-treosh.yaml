@@ -1,0 +1,60 @@
+name: Lighthouse Check treosh
+
+on:
+  # pull_request:
+  workflow_dispatch:
+
+jobs:
+  lighthouse-check-treosh:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      CI: ""
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Run Lighthouse against a static dist dir
+        uses: treosh/lighthouse-ci-action@v10
+        id: LHCIAction
+        with:
+          # no urls needed, since it uses local folder to scan .html files
+          configPath: "./lighthouserc.js"
+
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const lighthouseCommentMaker = require('./scripts/ligthouseReportComment.js');
+
+            const lighthouseOutputs = {
+              manifest: ${{ steps.LHCIAction.outputs.manifest }},
+              links: ${{ steps.LHCIAction.outputs.links }}
+            };
+
+            console.log('lighthouseOutputs', lighthouseOutputs);
+
+            const comment = lighthouseCommentMaker({ lighthouseOutputs });
+            core.setOutput("comment", comment);
+
+      - name: Print lighthouse result to terminal
+        run: echo "lighthouse report results ${{toJson(steps.LHCIAction.outputs)}}"
+
+      - name: Access Lighthouse Report
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: lighthouse
+          message: ${{ steps.format_lighthouse_score.outputs.comment }}
