@@ -33,14 +33,18 @@ jobs:
         run: |
           ls ${{ github.workspace }}
 
+      # - name: Format lighthouse score
+      #   id: format_lighthouse_score
+      #   uses: actions/github-script@v5
+      #   with:
+      #     script: |
+      #       const fs = require('fs');
+      #       const path = require('path');
+
+      #       const root = process.env.GITHUB_WORKSPACE;
+      #       const jsonsInDir = fs.readdirSync(root + '/lighthouse-results').filter(file => path.extname(file) === '.json');
+      #       console.log('jsonsInDir res =>',  jsonsInDir);
+
       - name: Format lighthouse score
         id: format_lighthouse_score
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-
-            const root = process.env.GITHUB_WORKSPACE;
-            const jsonsInDir = fs.readdirSync(root + '/lighthouse-results').filter(file => path.extname(file) === '.json');
-            console.log('jsonsInDir res =>',  jsonsInDir);
+        run: node ${{ github.workspace }}/readJsons.js

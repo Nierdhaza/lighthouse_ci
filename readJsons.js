@@ -35,8 +35,8 @@ const sum = summaries.reduce(
 );
 
 for (const key in sum) {
-  sum[key] /= 3;
+  sum[key] /= summaries.length;
   sum[key] = +sum[key].toFixed(2);
 }
 
-// console.log(sum);
+console.log("sum =>", sum);
