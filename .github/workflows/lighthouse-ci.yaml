@@ -1,12 +1,11 @@
 name: Lighthouse Check
 
-on:
-  workflow_dispatch:
-  push:
+on: [workflow_dispatch, pull_request]
 
 jobs:
   lighthouse-check:
     runs-on: ubuntu-latest
+    permissions: write-all
     env:
       CI: ""
 
@@ -25,12 +24,20 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      - name: Run Lighthouse against a static dist dir
-        uses: treosh/lighthouse-ci-action@v10
-        id: LHCIAction
-        with:
-          # no urls needed, since it uses local folder to scan .html files
-          configPath: "./lighthouserc.js"
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
 
-      - name: Access Lighthouse Report
-        run: echo ${{toJson(steps.LHCIAction.outputs)}}
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+
+      - name: Generate lighthouse report
+        run: node ${{ github.workspace }}/generateLighthouseReport.js
+
+      - name: Upload lighthouse report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ligthouse-report
+          path: ${{github.workspace}}/lighthouse-results/lighthouseReport.md
