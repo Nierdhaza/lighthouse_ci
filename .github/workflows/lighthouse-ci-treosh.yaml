@@ -38,7 +38,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const lighthouseCommentMaker = require('./scripts/ligthouseReportComment.js');
+            const lighthouseCommentMaker = require('./scripts/lighthouseReportComment.js');
 
             const lighthouseOutputs = {
               manifest: ${{ steps.LHCIAction.outputs.manifest }},

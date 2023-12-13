@@ -33,18 +33,11 @@ jobs:
         run: |
           ls ${{ github.workspace }}
 
-      # - name: Format lighthouse score
-      #   id: format_lighthouse_score
-      #   uses: actions/github-script@v5
-      #   with:
-      #     script: |
-      #       const fs = require('fs');
-      #       const path = require('path');
+      - name: Generate lighthouse report
+        run: node ${{ github.workspace }}/generateLighthouseReport.js
 
-      #       const root = process.env.GITHUB_WORKSPACE;
-      #       const jsonsInDir = fs.readdirSync(root + '/lighthouse-results').filter(file => path.extname(file) === '.json');
-      #       console.log('jsonsInDir res =>',  jsonsInDir);
-
-      - name: Format lighthouse score
-        id: format_lighthouse_score
-        run: node ${{ github.workspace }}/readJsons.js
+      - name: Upload lighthouse report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ligthouse-report
+          path: ${{github.workspace}}/lighthouse-results/lighthouseReport.md
