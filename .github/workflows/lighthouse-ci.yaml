@@ -43,4 +43,4 @@ jobs:
 
             const root = process.env.GITHUB_WORKSPACE;
             const jsonsInDir = fs.readdirSync(root + '/lighthouse-results').filter(file => path.extname(file) === '.json');
-            console.log('jsonsInDir',  jsonsInDir);
+            console.log('jsonsInDir res =>',  jsonsInDir);

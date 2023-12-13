@@ -5,6 +5,7 @@ module.exports = {
       // settings: {
       //   hostname: "127.0.0.1",
       // },
+      numberOfRuns: 5,
       settings: {
         // auditMode: "full", // This enables all audits
         audits: ["first-contentful-paint", "interactive", "first-cpu-idle"],
